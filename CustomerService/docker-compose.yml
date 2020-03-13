@@ -1,0 +1,42 @@
+version: '3'
+services:
+    pg-docker:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: gigaming
+        ports:
+            - "5432:5432"
+        networks:
+            - postgres_default
+    customerservice:
+        image: ram191/customerservice
+        deploy:
+            replicas: 3
+        ports:
+            - "3000:80"
+        networks:
+            - postgres_default
+    merchantservice:
+        image: ram191/merchantservice
+        deploy:
+            replicas: 3
+        ports:
+            - "4000:80"
+        networks:
+            - postgres_default
+    productservice:
+        image: ram191/productservice
+        deploy:
+            replicas: 3
+        ports:
+            - "5000:80"
+        networks:
+            - postgres_default
+networks:
+    postgres_default:
+        external: true
+    
+
+
+    
+        
