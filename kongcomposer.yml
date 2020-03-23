@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  migration:
+    image: kong:latest
+    command: kong migrations bootstrap
+    env_file:
+      - .env
+    deploy:
+      restart_policy:
+        condition: on-failure
+    networks:
+      - postgres_default
+
+  kong:
+    image: kong:latest
+    env_file:
+      - .env
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.kongHTTP.port=8000"
+        - "traefik.kongHTTPadmin.port=8001"
+        - "traefik.kongHTTPS.port=8443"
+        - "traefik.kongHTTPSadmin.port=8444"
+        - "traefik.docker.network=swarm-net"
+        - "traefik.frontend.rule=Host:api.gateway.swarm.sabay.com"
+        - "traefik.kongHTTP.frontend.entryPoints=http8000"
+        - "traefik.kongHTTPadmin.frontend.entryPoints=http8001"
+        - "traefik.kongHTTPS.frontend.entryPoints=https8443"
+        - "traefik.kongHTTPSadmin.frontend.entryPoints=https8444"
+    networks:
+        - postgres_default
+    ports:
+        - "8000:8000"
+        - "8443:8443"
+        - "8001:8001"
+        - "8444:8444"
+
+networks:
+    postgres_default:
+        external: true

@@ -12,7 +12,7 @@ COPY . .
 WORKDIR /source/CustomerService
 RUN dotnet publish -c release -o /app
 RUN chmod +x ./entrypoint.sh
-CMD /bin/bash ./entrypoint.sh
+CMD /CustomerService/bash ./entrypoint.sh
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1

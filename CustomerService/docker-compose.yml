@@ -1,13 +1,13 @@
 version: '3'
 services:
-    pg-docker:
-        image: postgres
-        environment:
-            POSTGRES_PASSWORD: gigaming
-        ports:
-            - "5432:5432"
-        networks:
-            - postgres_default
+    # pg-docker:
+    #     image: postgres
+    #     environment:
+    #         POSTGRES_PASSWORD: gigaming
+    #     ports:
+    #         - "5432:5432"
+    #     networks:
+    #         - postgres_default
     customerservice:
         image: ram191/customerservice
         deploy:
